@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dashboard</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.css">
+	<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+	<script type="text/javascript">
+		
+		var lista_datas = {{ ld | safe }};
+		var lista_valores = {{ lv | safe }};
+
+	</script>
+</body>
+</head>
+<body>
+	Contas Cadastradas: {{ conts | replace("[","") | replace("]","") | replace("'","") }}
+	<br>
+	
+	{% for key, value in data.items() | sort(attribute=1, reverse=True) %}
+	<p>{{ key }} - R$ {{'%0.2f'| format(value|float) | replace(".",",")}}  </p>
+	{% endfor %}
+
+	<hr>
+	
+	{% for k,v in data_tipo_saida.items()%}
+	<p>{{ k }} - R$ {{'%0.2f'| format(v|float) | replace(".",",") }}</p>
+	{% endfor %}
+	
+	<hr />
+
+	<div id='myChart'></div>
+	<div id='grafico_saldo'></div>
+	
+	<script type="text/javascript" src="{{ url_for('.static', filename='js/grafico_linha.js') }}"></script>
+	<!-- <script type="text/javascript" src="{{ url_for('.static', filename='js/grafico_saldo.js') }}"></script> -->
+	
+	
+</html>
